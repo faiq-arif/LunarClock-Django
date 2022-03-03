@@ -1,0 +1,19 @@
+*{
+    background-color:rgb(255, 255, 255);
+    margin:0;
+    padding:0;
+}
+
+.clock{
+    text-align:center;
+    width:auto;
+    height:auto;
+    color:white;
+    font-family:'Orbitron';
+    font-size:75px;
+}
+#contain_moon{
+    color:white;
+    font-family:'Orbitron';
+    font-size: 50px;
+}

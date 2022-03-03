@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lunar Phase Clock</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static "lunarphase/bootstrap.min.css" %}">
+        <script src="{% static "lunarphase/bootstrap.min.js" %}"></script>
+    </head>
+    <body style="background-color: black; overflow: hidden;" onload="startTime()">
+        <div class="row">
+          <div class="row">
+            <div class="col-sm-7">
+              <h1 style="text-align:right; width:auto; height:auto; color:white; font-family:'Oxanium'; font-size:210px;" id="clock"></h1>
+            </div>
+            <div class="col-sm-5">
+              <h1 style="text-align:left; width:auto; height:auto; color:white; font-family:'Oxanium'; font-size:60px;" id="day"></h1>
+              <h1 style="text-align:left; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: lighter; font-size:40px;" id="hijriDate"></h1>
+              <h1 style="text-align:left; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: lighter; font-size:40px;" id="greDate"></h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid">   
+            <div class="row">
+              <div class="col-sm-5">
+                <img id=imgphase width="500" height="500" alt="Moon Phase" style="margin: auto; display: block; text-align: center;" class="rounded">
+              </div>
+              <div class="col-sm-7">
+                <h2 style="color:black">placeholder</h2>
+                <table class="table table-borderless table-dark">
+                  <tbody>
+                    <tr>
+                      <td style="text-align: right; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: lighter; font-size:45px;">MOON PHASE</td>
+                      <td style="text-align: left; text-transform: uppercase; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: bold; font-size:45px;"id="fasebulan"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: right; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: lighter; font-size:45px;">ALTITUDE</td>
+                      <td style="text-align: left; text-transform: uppercase; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: bold; font-size:45px;"id="alti"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: right; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: lighter; font-size:45px;">AZIMUTH</td>
+                      <td style="text-align: left; text-transform: uppercase; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: bold; font-size:45px;"id="az"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: right; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: lighter; font-size:45px;">ELONGATION</td>
+                      <td style="text-align: left; text-transform: uppercase; width:auto; height:auto; color:white; font-family:'Roboto'; font-weight: bold; font-size:45px;"id="elong"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div style="position: fixed;left: 0;bottom: 0;width: 98%;color: white;text-align: right; font-family: 'Roboto';" class="footer">
+            <p>&copy; 2020</p>
+            <p>Club Astronomi Santri Assalaam</p>
+          </div>
+
+          <!--<script>
+
+          function updateDate() {
+          var now = new Date(), // current date
+          months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']; // you get the idea
+          day = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+           // a cleaner way than string concatenation
+           date = day[now.getDay()] + ", " + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();
+
+          // set the content of the element with the ID time to the formatted string
+          document.getElementById('time').innerHTML = [date];
+
+          // call this function again in 1000ms
+          setTimeout(updateClock, 1000);
+          }
+          updateDate(); // initial call
+          </script>-->
+
+          <script>
+            function startTime() {
+              var today = new Date();
+              var h = today.getHours();
+              var m = today.getMinutes();
+              //var s = today.getSeconds();
+              m = checkTime(m);
+              //s = checkTime(s);
+              document.getElementById('clock').innerHTML =
+              h + ":" + m;
+              var t = setTimeout(startTime, 500);
+            }
+            function checkTime(i) {
+              if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+              return i;
+            }
+            </script>
+      <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+      <script src="{% static 'js/app.js' %}"></script>
+      <!--<script>
+        function secData (){
+          $('#alti').load('/getAlt/');
+          $('#az').load('/getAz/');
+          $('#elong').load('/getElong/');
+        }
+
+        function quarterData(){
+          $('#fasebulan').load('/getPhase/');
+          $('#hijriDate').load('/hDate/');
+          $('#greDate').load('/gDate/');
+          $.get( '/getImage/', function(data){
+              img = parseInt(data);
+              if (img === 1){
+                document.getElementById("imgphase").src = "{% static "lunarphase/0_0.png" %}";
+              }
+              else if (img === 2){
+                document.getElementById("imgphase").src = "{% static "lunarphase/2_0.png" %}";
+              }
+              else if (img === 3){
+                document.getElementById("imgphase").src = "{% static "lunarphase/5_0.png" %}";
+              }
+              else if (img === 4){
+                document.getElementById("imgphase").src = "{% static "lunarphase/8_0.png" %}";
+              }
+              else if (img === 5){
+                document.getElementById("imgphase").src = "{% static "lunarphase/14_0.png" %}";
+              }
+              else if (img === 6){
+                document.getElementById("imgphase").src = "{% static "lunarphase/17_0.png" %}";
+              }
+              else if (img === 7){
+                document.getElementById("imgphase").src = "{% static "lunarphase/22_0.png" %}";
+              }
+              else if (img === 8){
+                document.getElementById("imgphase").src = "{% static "lunarphase/26_0.png" %}";
+              }
+            });
+        }
+
+        $(document).ready(function(){
+        setInterval(secData,1000);
+        });
+
+        $(document).ready(function(){
+        setInterval(quarterData,900000);
+        });
+      </script>-->
+      <script>
+        $(document).ready(function() {
+          $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
+          var my_refresh = setInterval(function() {
+            $('#day').load('/dayname/');
+            $('#fasebulan').load('/getPhase/');
+            $('#alti').load('/getAlt/');
+            $('#az').load('/getAz/');
+            $('#hijriDate').load('/hDate/');
+            $('#greDate').load('/gDate/');
+            $('#elong').load('/getElong/');
+            $.get( '/getImage/', function(data){
+              img = parseInt(data);
+              if (img === 1){
+                document.getElementById("imgphase").src = "{% static "lunarphase/0_0.png" %}";
+              }
+              else if (img === 2){
+                document.getElementById("imgphase").src = "{% static "lunarphase/2_0.png" %}";
+              }
+              else if (img === 3){
+                document.getElementById("imgphase").src = "{% static "lunarphase/5_0.png" %}";
+              }
+              else if (img === 4){
+                document.getElementById("imgphase").src = "{% static "lunarphase/8_0.png" %}";
+              }
+              else if (img === 5){
+                document.getElementById("imgphase").src = "{% static "lunarphase/14_0.png" %}";
+              }
+              else if (img === 6){
+                document.getElementById("imgphase").src = "{% static "lunarphase/17_0.png" %}";
+              }
+              else if (img === 7){
+                document.getElementById("imgphase").src = "{% static "lunarphase/22_0.png" %}";
+              }
+              else if (img === 8){
+                document.getElementById("imgphase").src = "{% static "lunarphase/26_0.png" %}";
+              }
+            });
+          }, 1000); // the "1000"
+        });
+        </script>
+      {% block javascript %}{% endblock %}
+    </body>
+</html>
